@@ -5,13 +5,15 @@ import android.widget.Toast;
 
 import com.notelint.android.Application;
 
+import java.io.Serializable;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.Sort;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
-public class Note extends RealmObject implements Comparable<Note> {
+public class Note extends RealmObject implements Serializable {
     @PrimaryKey
     private long id;
 
@@ -89,11 +91,6 @@ public class Note extends RealmObject implements Comparable<Note> {
         this.position = position;
     }
 
-    @Override
-    public int compareTo(Note o) {
-        return (this.getPosition() - o.getPosition());
-    }
-
     // todo доделать. Научиться правильно считать позицию
     public void updatePosition(int position) {
         Realm realm = Realm.getDefaultInstance();
@@ -141,14 +138,22 @@ public class Note extends RealmObject implements Comparable<Note> {
         realm.close();
     }
 
-    public static void create(String title, String text, boolean visible) {
+    /**
+     * Return id crated note
+     * @param title - title
+     * @param text - text note
+     * @param visible - visible
+     * @return long
+     */
+    public static long create(String title, String text, boolean visible) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
         Note lastNote = realm.where(Note.class).sort("id", Sort.DESCENDING).findFirst();
         int lastPosition = lastNote != null ? lastNote.getPosition() + 1 : 1;
 
-        Note note = realm.createObject(Note.class, System.currentTimeMillis());
+        long id = System.currentTimeMillis();
+        Note note = realm.createObject(Note.class, id);
         note.setTitle(title);
         note.setText(text);
         note.setCreatedAt(System.currentTimeMillis());
@@ -158,6 +163,8 @@ public class Note extends RealmObject implements Comparable<Note> {
 
         realm.commitTransaction();
         realm.close();
+
+        return id;
     }
 
     public static void update(long id, String title, String text, boolean visible) {

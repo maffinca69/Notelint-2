@@ -22,6 +22,12 @@ import com.notelint.android.interfaces.ItemTouchHelperAdapter;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import io.realm.ObjectChangeSet;
+import io.realm.RealmModel;
+import io.realm.RealmObjectChangeListener;
+
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     public List<Note> notes;
@@ -45,6 +51,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
             }
 
             Note note = this.notes.get(position);
+            note.addChangeListener((realmModel, changeSet) -> notifyItemChanged(position));
 
             Intent intent = new Intent(this.context, EditorActivity.class);
             intent.putExtra("id", note.getId());

@@ -1,5 +1,6 @@
 package com.notelint.android.activities;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -25,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.notelint.android.Application;
+import com.notelint.android.MainActivity;
 import com.notelint.android.R;
 import com.notelint.android.database.models.Note;
 import com.notelint.android.receivers.Alarm;
@@ -34,6 +36,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
 
+import io.realm.annotations.Index;
+
 public class EditorActivity extends AppCompatActivity {
 
     private EditText inputTitle;
@@ -41,6 +45,7 @@ public class EditorActivity extends AppCompatActivity {
     private long id = 0;
 
     private boolean isSaved = false;
+    private boolean hasBeenCreated = false;
 
     private String updatedTitle = "";
     private String updatedText = "";
@@ -68,7 +73,6 @@ public class EditorActivity extends AppCompatActivity {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -108,8 +112,6 @@ public class EditorActivity extends AppCompatActivity {
 
     private void setAlarm(long time, String title, String description) {
         int notifyId = (int)(time / 1000);
-        Log.e("ASD1", String.valueOf(notifyId));
-        Log.e("ASD2", String.valueOf(time));
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         // Prepare data
@@ -146,6 +148,17 @@ public class EditorActivity extends AppCompatActivity {
         this.id = id;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("id", this.id);
+        data.putExtra("hasBeenCreated", this.hasBeenCreated);
+        setResult(MainActivity.STATUS_CREATED, data);
+        finish();
+//        super.onBackPressed();
+
+    }
+
     protected TextWatcher editorTextFieldWatcher = new TextWatcher() {
 
         @Override
@@ -165,14 +178,6 @@ public class EditorActivity extends AppCompatActivity {
         setSupportActionBar(this.findViewById(R.id.toolbar));
     }
 
-    @Override
-    protected void onDestroy() {
-        if (!this.isSaved) {
-            createOrUpdate(true);
-        }
-        super.onDestroy();
-    }
-
     private void createOrUpdate(boolean visible) {
         String title = StringUtils.trim(this.inputTitle.getText().toString());
         String text = StringUtils.trim(this.inputText.getText().toString());
@@ -185,7 +190,8 @@ public class EditorActivity extends AppCompatActivity {
         title = StringUtils.isEmpty(title) ? String.format("Новая заметка №%s", lastNote != null ? lastNote.getPosition() + 1 : 1) : title;
 
         if (this.id == 0) {
-            Note.create(title, text, visible);
+            this.hasBeenCreated = true;
+            this.id = Note.create(title, text, visible);
         } else if (!StringUtils.equals(updatedText, text) || !StringUtils.equals(updatedTitle, title)) {
             Note.update(this.id, title, text, visible);
         }

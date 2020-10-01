@@ -2,13 +2,16 @@ package com.notelint.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,13 +27,15 @@ import com.notelint.android.callbacks.ItemTouchHelperCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int STATUS_CREATED = 12345;
 
     private RecyclerView recyclerView;
     private List<Note> notes = new ArrayList<>();
@@ -54,14 +59,27 @@ public class MainActivity extends AppCompatActivity {
                 this.notes.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
                 fillData(isArchive);
-                if (isArchive) {
-                    ((TextView) findViewById(R.id.toolbar_title)).setText(getString(R.string.archive));
-                } else {
-                    ((TextView) findViewById(R.id.toolbar_title)).setText(getString(R.string.app_name));
-                }
+                ((TextView) findViewById(R.id.toolbar_title)).setText(isArchive ? getString(R.string.archive) : getString(R.string.app_name));
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == STATUS_CREATED) {
+            long id = data.getExtras().getLong("id");
+            boolean hasBeenCreated = data.getExtras().getBoolean("hasBeenCreated");
+            if (hasBeenCreated) {
+                Realm realm = Realm.getDefaultInstance();
+                Note note = realm.where(Note.class).equalTo("id", id).findFirstAsync();
+                this.notes.add(0, note);
+                recyclerView.getAdapter().notifyItemInserted(0);
+                recyclerView.smoothScrollToPosition(0);
+                realm.close();
+            }
+        }
     }
 
     @Override
@@ -72,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.recycler);
         this.setAdapter();
 
-        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivity(new Intent(this, EditorActivity.class)));
+        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivityForResult(new Intent(this, EditorActivity.class), STATUS_CREATED));
         setSupportActionBar(findViewById(R.id.bottom_app_bar));
         this.getDataFromIntent();
         Alarm.reInitAllAlarms();
@@ -85,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int id = intent.getInt("notifyId", 0);
-        Log.e("id", String.valueOf(id));
         if (id != 0) {
             Alarm.delete(0, id);
         }
@@ -101,30 +118,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             query.equalTo("deletedAt", 0);
         }
-        RealmResults result = query.findAll();
-        result.removeAllChangeListeners();
-        result.addChangeListener(changeListener);
+        RealmResults result = query.findAllAsync();
         this.notes.addAll(result);
     }
-
-    // Костыль для обновления данных в списке. Надо бы использовать DiffUtils
-    private OrderedRealmCollectionChangeListener<RealmResults<Note>> changeListener = (results, changeSet) -> {
-        // Change
-        int[] changes = changeSet.getChanges();
-        if (changes.length != 0) {
-            recyclerView.getAdapter().notifyItemChanged(changes[0]);
-        }
-
-        // Inserts
-        int[] insertions = changeSet.getInsertions();
-        Note inserted = results.first();
-        if (insertions.length != 0 && notes.contains(inserted)) {
-            int insertedPosition = 0;
-            notes.add(insertedPosition, inserted);
-            recyclerView.getAdapter().notifyItemInserted(insertions[0]);
-            recyclerView.smoothScrollToPosition(insertedPosition);
-        }
-    };
 
     private void setAdapter() {
         MainAdapter adapter = new MainAdapter(this.notes, this);

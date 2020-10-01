@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/notification_repeater_title"
+        android:entryValues="@array/notification_repeater_values"
+        android:key="notify_repeater"
+        android:summary="Через сколько повторить уведомление после вызова"
+        android:title="Повтор уведомлений"
+        app:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

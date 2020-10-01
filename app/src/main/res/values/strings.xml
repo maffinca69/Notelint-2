@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Notelint 2</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="new_note">New note</string>
+    <string name="enter_text">Enter text</string>
+    <string name="enter_title">Enter title</string>
+    <string name="save">Save</string>
+    <string name="archive">Archive</string>
+</resources>

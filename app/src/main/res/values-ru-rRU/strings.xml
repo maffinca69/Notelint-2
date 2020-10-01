@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="edit">Изменить</string>
+    <string name="delete">Удалить</string>
+    <string name="new_note">Новая заметка</string>
+    <string name="enter_text">Введите текст</string>
+    <string name="enter_title">Введите заголовок</string>
+    <string name="save">Сохранить</string>
+    <string name="archive">Архив</string>
+</resources>

@@ -45,6 +45,7 @@ import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
+    private Realm realm;
 
     public static final int STATUS_CREATED = 12345;
 
@@ -62,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         ThemeUtil.apply(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setBackgroundDrawable(null);
-        this.fillData(false);
+        realm = Realm.getDefaultInstance();
+        this.fillData(builder().equalTo("deletedAt", 0));
         this.recyclerView = findViewById(R.id.recycler);
         this.setAdapter();
 
@@ -97,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
         isArchive = !isArchive;
         this.notes.clear();
         recyclerView.getAdapter().notifyDataSetChanged();
-        fillData(isArchive);
+        RealmQuery<Note> builder = builder();
+        if (isArchive) builder.notEqualTo("deletedAt", 0);
+        if (!isArchive) builder.equalTo("deletedAt", 0);
+        fillData(builder);
         ((TextView) findViewById(R.id.toolbar_title)).setText(isArchive ? getString(R.string.archive) : getString(R.string.app_name));
     }
 
@@ -108,12 +112,10 @@ public class MainActivity extends AppCompatActivity {
             long id = data.getExtras().getLong("id");
             boolean hasBeenCreated = data.getExtras().getBoolean("hasBeenCreated");
             if (hasBeenCreated) {
-                Realm realm = Realm.getDefaultInstance();
                 Note note = realm.where(Note.class).equalTo("id", id).findFirstAsync();
                 this.notes.add(0, note);
                 recyclerView.getAdapter().notifyItemInserted(0);
                 recyclerView.smoothScrollToPosition(0);
-                realm.close();
             }
         }
     }
@@ -130,18 +132,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void fillData(boolean isArchive) {
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<Note> query = realm.where(Note.class)
+    private RealmQuery<Note> builder() {
+        RealmQuery<Note> builder = realm.where(Note.class)
                 .equalTo("visible", true)
                 .sort("createdAt", Sort.DESCENDING);
-        if (isArchive) {
-            query.notEqualTo("deletedAt", 0);
-        } else {
-            query.equalTo("deletedAt", 0);
-        }
-        RealmResults result = query.findAllAsync();
+        return builder;
+    }
+
+    private void fillData(RealmQuery<Note> builder) {
+        RealmResults result = builder.findAllAsync();
         this.notes.addAll(result);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     @Override

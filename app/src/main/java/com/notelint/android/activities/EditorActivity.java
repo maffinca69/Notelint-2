@@ -1,28 +1,21 @@
 package com.notelint.android.activities;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.notelint.android.Application;
@@ -37,8 +30,6 @@ import com.notelint.android.utils.ThemeUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
-
-import io.realm.annotations.Index;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -168,10 +159,12 @@ public class EditorActivity extends AppCompatActivity {
     protected TextWatcher editorTextFieldWatcher = new TextWatcher() {
 
         @Override
-        public void afterTextChanged(Editable s) { }
+        public void afterTextChanged(Editable s) {
+        }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {

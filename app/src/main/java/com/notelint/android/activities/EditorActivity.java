@@ -78,8 +78,8 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save: {
                 this.createOrUpdate(true);
-                Toast.makeText(Application.getInstance(), "Saved", Toast.LENGTH_SHORT).show();
                 this.isSaved = true;
+                Toast.makeText(Application.getInstance(), "Заметка сохранена", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.notify: {

@@ -99,7 +99,6 @@ public class Note extends RealmObject implements Serializable {
         // Обновляем позицию той, выше или ниже которой переместили заметку
         Note movingNote = realm.where(Note.class).equalTo("position", position).findFirst();
         if (movingNote != null) {
-            Log.e("TAG", String.valueOf(this.getPosition() > position ? position + 1 : position - 1));
             movingNote.setPosition(this.getPosition() > position ? position + 1 : position - 1);
         }
 
@@ -182,6 +181,22 @@ public class Note extends RealmObject implements Serializable {
         note.setUpdatedAt(System.currentTimeMillis());
         note.setVisible(visible);
 
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static final void clearArchive() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(Note.class).notEqualTo("deletedAt", 0).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static final void clearAll() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(Note.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

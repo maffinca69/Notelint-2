@@ -39,11 +39,6 @@
             android:enabled="true"
             android:exported="true"
             android:name=".receivers.Alarm" />
-        <service
-            android:name=".services.AlarmService"
-            android:enabled="true"
-            android:process=":your_service" >
-        </service>
     </application>
 
 </manifest>

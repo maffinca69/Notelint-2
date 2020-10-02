@@ -23,6 +23,7 @@ import com.notelint.android.adapters.MainAdapter;
 import com.notelint.android.database.models.Alarm;
 import com.notelint.android.database.models.Note;
 import com.notelint.android.callbacks.ItemTouchHelperCallback;
+import com.notelint.android.utils.PrefUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,14 +56,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, PreferencesActivity.class));
                 break;
             case R.id.archive:
-                isArchive = !isArchive;
-                this.notes.clear();
-                recyclerView.getAdapter().notifyDataSetChanged();
-                fillData(isArchive);
-                ((TextView) findViewById(R.id.toolbar_title)).setText(isArchive ? getString(R.string.archive) : getString(R.string.app_name));
+                setArchive();
                 break;
         }
         return true;
+    }
+
+    private void setArchive() {
+        isArchive = !isArchive;
+        this.notes.clear();
+        recyclerView.getAdapter().notifyDataSetChanged();
+        fillData(isArchive);
+        ((TextView) findViewById(R.id.toolbar_title)).setText(isArchive ? getString(R.string.archive) : getString(R.string.app_name));
     }
 
     @Override
@@ -120,6 +125,15 @@ public class MainActivity extends AppCompatActivity {
         }
         RealmResults result = query.findAllAsync();
         this.notes.addAll(result);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isArchive && PrefUtil.isExitArchiveBackPressed()) {
+            setArchive();
+            return;
+        }
+        super.onBackPressed();
     }
 
     private void setAdapter() {

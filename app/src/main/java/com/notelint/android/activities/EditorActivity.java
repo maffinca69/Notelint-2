@@ -111,13 +111,13 @@ public class EditorActivity extends AppCompatActivity {
     };
 
     private void setAlarm(long time, String title, String description) {
-        int notifyId = (int)(time / 1000);
+        int notifyId = (int) (time / 1000);
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         // Prepare data
         Intent i = new Intent(Application.getInstance(), Alarm.class);
         i.putExtra("notifyId", notifyId);
-        i.putExtra("title",title);
+        i.putExtra("title", title);
         i.putExtra("text", description);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(Application.getInstance(), notifyId, i, 0);
 
@@ -150,13 +150,15 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        exit();
+    }
+
+    private void exit() {
         Intent data = new Intent();
         data.putExtra("id", this.id);
         data.putExtra("hasBeenCreated", this.hasBeenCreated);
         setResult(MainActivity.STATUS_CREATED, data);
         finish();
-//        super.onBackPressed();
-
     }
 
     protected TextWatcher editorTextFieldWatcher = new TextWatcher() {
@@ -194,6 +196,10 @@ public class EditorActivity extends AppCompatActivity {
             this.id = Note.create(title, text, visible);
         } else if (!StringUtils.equals(updatedText, text) || !StringUtils.equals(updatedTitle, title)) {
             Note.update(this.id, title, text, visible);
+        }
+
+        if (PrefUtil.isExitAfterSaving()) {
+            exit();
         }
     }
 }

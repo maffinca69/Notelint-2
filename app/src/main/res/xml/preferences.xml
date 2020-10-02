@@ -9,4 +9,18 @@
         android:summary="Через сколько повторить уведомление после вызова"
         android:title="Повтор уведомлений"
         app:useSimpleSummaryProvider="true" />
+    <SwitchPreference
+        android:key="exitAfterSaving"
+        android:title="Выход из редактора"
+        android:summary="Выходить из режима редактирования после сохранения заметки" />
+    <SwitchPreference
+        android:key="exitArchiveBackPressed"
+        android:title="Выход из архива кнопкой назад"
+        android:summary="Выходить из архива кнопкой назад. Если не включено - выход из приложения" />
+    <Preference
+        android:key="clearArchive"
+        android:title="Очистить архив" />
+    <Preference
+        android:key="clearAll"
+        android:title="Удалить все заметки" />
 </PreferenceScreen>

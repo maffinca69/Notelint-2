@@ -14,4 +14,12 @@ public class PrefUtil {
     public static final int getNotifyTimeRepeater() {
         return Integer.parseInt(Objects.requireNonNull(mPrefs.getString("notify_repeater", "0")));
     }
+
+    public static final boolean isExitAfterSaving() {
+        return mPrefs.getBoolean("exitAfterSaving", false);
+    }
+
+    public static final boolean isExitArchiveBackPressed() {
+        return mPrefs.getBoolean("exitArchiveBackPressed", false);
+    }
 }

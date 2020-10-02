@@ -1,6 +1,12 @@
 package com.notelint.android;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +30,9 @@ import com.notelint.android.adapters.MainAdapter;
 import com.notelint.android.database.models.Alarm;
 import com.notelint.android.database.models.Note;
 import com.notelint.android.callbacks.ItemTouchHelperCallback;
+import com.notelint.android.helpers.MenuHelper;
 import com.notelint.android.utils.PrefUtil;
+import com.notelint.android.utils.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +44,7 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
+    private static MainActivity instance;
 
     public static final int STATUS_CREATED = 12345;
 
@@ -42,10 +52,31 @@ public class MainActivity extends AppCompatActivity {
     private List<Note> notes = new ArrayList<>();
     private boolean isArchive = false;
 
+    public static MainActivity getInstance() {
+        return instance != null ? instance : new MainActivity();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
+        ThemeUtil.apply(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getWindow().setBackgroundDrawable(null);
+        this.fillData(false);
+        this.recyclerView = findViewById(R.id.recycler);
+        this.setAdapter();
+
+        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivityForResult(new Intent(this, EditorActivity.class), STATUS_CREATED));
+        setSupportActionBar(findViewById(R.id.bottom_app_bar));
+        this.getDataFromIntent();
+        Alarm.reInitAllAlarms();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.app_bar_menu, menu);
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+        MenuHelper.setColorIcons(menu);
         return true;
     }
 
@@ -85,20 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 realm.close();
             }
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.fillData(false);
-        this.recyclerView = findViewById(R.id.recycler);
-        this.setAdapter();
-
-        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivityForResult(new Intent(this, EditorActivity.class), STATUS_CREATED));
-        setSupportActionBar(findViewById(R.id.bottom_app_bar));
-        this.getDataFromIntent();
-        Alarm.reInitAllAlarms();
     }
 
     private void getDataFromIntent() {

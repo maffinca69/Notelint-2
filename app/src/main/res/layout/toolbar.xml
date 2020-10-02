@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
+    android:elevation="4dp"
     android:layout_height="?attr/actionBarSize"
-    android:background="@android:color/white">
+    android:background="?attr/header_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/app_name"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -33,6 +34,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:foreground="?selectableItemBackgroundBorderless"
             android:padding="18dp"
+            android:backgroundTint="?attr/text_primary"
             android:src="@drawable/ic_save_black_24dp"
             android:visibility="gone"
             tools:visibility="visible" />

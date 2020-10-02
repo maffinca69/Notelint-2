@@ -9,6 +9,12 @@
         android:summary="Через сколько повторить уведомление после вызова"
         android:title="Повтор уведомлений"
         app:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:entries="@array/themes_title"
+        android:entryValues="@array/themes_values"
+        android:key="themes"
+        android:title="Тема приложения"
+        app:useSimpleSummaryProvider="true" />
     <SwitchPreference
         android:key="exitAfterSaving"
         android:title="Выход из редактора"

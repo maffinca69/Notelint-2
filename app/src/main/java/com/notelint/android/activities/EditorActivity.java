@@ -29,8 +29,10 @@ import com.notelint.android.Application;
 import com.notelint.android.MainActivity;
 import com.notelint.android.R;
 import com.notelint.android.database.models.Note;
+import com.notelint.android.helpers.MenuHelper;
 import com.notelint.android.receivers.Alarm;
 import com.notelint.android.utils.PrefUtil;
+import com.notelint.android.utils.ThemeUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +56,7 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeUtil.apply(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
         this.inputTitle = findViewById(R.id.input_title);
@@ -70,6 +73,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editor_menu, menu);
+        MenuHelper.setColorIcons(menu);
         return true;
     }
 

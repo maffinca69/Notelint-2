@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_content"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -11,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_margin="8dp"
         android:layout_marginEnd="12dp"
         android:hint="@string/enter_title"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/text_primary"
         android:background="@null"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -30,5 +32,5 @@
         android:background="@null"
         android:textSize="16sp"
         android:inputType="text|textMultiLine"
-        android:textColor="?android:textColorPrimaryNoDisable" />
+        android:textColor="?attr/text_muted" />
 </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_content"
     tools:context=".MainActivity">
 
     <include layout="@layout/toolbar" />
@@ -27,7 +28,7 @@
             android:layout_height="?actionBarSize"
             android:layout_gravity="bottom"
             app:menu="@menu/app_bar_menu"
-            app:backgroundTint="@android:color/white" />
+            app:backgroundTint="?attr/header_background" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/new_note_btn"
@@ -41,7 +42,6 @@
             android:textSize="12sp"
             android:textColor="@android:color/white"
             app:icon="@drawable/ic_add_black_24dp"
-
             app:iconTint="@android:color/white"
             app:layout_anchor="@id/bottom_app_bar" />
 

@@ -5,9 +5,188 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Light">
+        <item name="accent">@color/blue_300</item>
+        <item name="background_content">@color/white</item>
+        <item name="background_highlighted">@color/black_alpha12</item>
+        <item name="background_keyboard">@color/gray_100</item>
+        <item name="background_light">@color/gray_20</item>
+        <item name="background_page">@color/gray_50</item>
+        <item name="background_suggestions">@color/white</item>
+        <item name="field_text_placeholder">#ff909499</item>
+        <item name="field_background">@color/gray_40</item>
+        <item name="header_alternate_background">@color/white</item>
+        <item name="header_alternate_tab_active_indicator">@color/blue_300</item>
+        <item name="header_alternate_tab_active_text">@color/blue_300</item>
+        <item name="header_alternate_tab_inactive_text">@color/gray_400</item>
+        <item name="header_background">@color/white</item>
+        <item name="header_background_before_blur">@color/blue_A400</item>
+        <item name="header_background_before_blur_alternate">@color/white</item>
+        <item name="header_search_field_background">@color/blue_A800</item>
+        <item name="header_search_field_tint">@color/blue_overlight_3</item>
+        <item name="header_tab_active_background">@color/blue_overlight_1_alpha32</item>
+        <item name="header_tab_active_indicator">@color/white</item>
+        <item name="header_tab_active_text">@color/white</item>
+        <item name="header_tab_inactive_text">@color/blue_overlight_2_alpha80</item>
+        <item name="header_text">@color/white</item>
+        <item name="header_text_alternate">@color/black</item>
+        <item name="header_text_secondary">@color/white_alpha60</item>
+        <item name="header_tint">@color/white</item>
+        <item name="header_tint_alternate">@color/blue_300</item>
+        <item name="header_tint_disabled">#66ffffff</item>
+        <item name="landing_background">#ff528bcc</item>
+        <item name="landing_field_background">#ffffffff</item>
+        <item name="landing_field_border">#1f000000</item>
+        <item name="landing_field_placeholder">#ff818c99</item>
+        <item name="landing_login_button_background">#3d001c3d</item>
+        <item name="landing_login_button_background_disabled">#18001c3d</item>
+        <item name="landing_login_button_foreground">#ffffffff</item>
+        <item name="landing_login_button_foreground_disabled">#66ffffff</item>
+        <item name="landing_primary_button_background">#ffffffff</item>
+        <item name="landing_primary_button_background_disabled">#66ffffff</item>
+        <item name="landing_primary_button_foreground">#ff2c2d2e</item>
+        <item name="landing_primary_button_foreground_disabled">#662c2d2e</item>
+        <item name="landing_secondary_button_background">#26ffffff</item>
+        <item name="landing_secondary_button_background_disabled">#0fffffff</item>
+        <item name="landing_secondary_button_foreground">#ffffffff</item>
+        <item name="landing_secondary_button_foreground_disabled">#66ffffff</item>
+        <item name="landing_snippet_border">#00000000</item>
+        <item name="landing_tertiary_button_background">#00000000</item>
+        <item name="landing_tertiary_button_background_disabled">#66000000</item>
+        <item name="landing_tertiary_button_foreground">#ccc2deff</item>
+        <item name="landing_tertiary_button_foreground_disabled">#51c2deff</item>
+        <item name="landing_text_primary">#ffe1e3e6</item>
+        <item name="landing_text_secondary">#99ffffff</item>
+        <item name="landing_text_title">#ffffffff</item>
+        <item name="text_primary">@color/black</item>
+        <item name="text_secondary">@color/steel_gray_400</item>
+        <item name="text_subhead">@color/steel_gray_500</item>
+        <item name="separator_alpha">@color/gray_400</item>
+        <item name="icon_alpha_placeholder">@color/white</item>
+        <item name="icon_medium">@color/gray_400</item>
+        <item name="icon_medium_disabled">#66909499</item>
+        <item name="icon_name">@color/blue_200_muted</item>
+        <item name="icon_outline_medium">@color/steel_gray_400</item>
+        <item name="icon_outline_secondary">@color/steel_gray_300</item>
+        <item name="icon_secondary">@color/gray_300</item>
+        <item name="icon_tertiary">@color/gray_200</item>
+
+        <item name="tabbar_inactive_icon">#ff909499</item>
+        <item name="tabbar_active_icon">#ff528bcc</item>
+        <item name="tabbar_background">@color/blue_400</item>
+        <item name="text_muted">@color/gray_800</item>
+        <item name="text_name">@color/azure_A400</item>
+        <item name="text_placeholder">@color/steel_gray_400</item>
+
+        <item name="text_tertiary">@color/steel_gray_300</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor" tools:targetApi="m">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.White" parent="AppTheme.Light">
+        <item name="accent">@color/blue_300</item>
+        <item name="background_content">@color/white</item>
+        <item name="background_page">@color/white</item>
+        <item name="tabbar_background">@color/white</item>
+        <item name="tabbar_inactive_icon">#ff909499</item>
+        <item name="tabbar_active_icon">@color/black</item>
+        <item name="header_background">@color/white</item>
+        <item name="header_text">@color/black</item>
+        <item name="landing_background">@color/white</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/alert</item>
+        <item name="android:textColor">?text_primary</item>
+        <item name="android:textColorPrimary">?text_secondary</item>
+        <item name="textColorAlertDialogListItem">?text_secondary</item>
+        <item name="colorAccent">@color/blue_300</item>
+    </style>
+
+    <style name="AppTheme.Dark">
+        <item name="accent">@color/sky_300</item>
+        <item name="background_content">@color/gray_900</item>
+        <item name="background_highlighted">@color/white_alpha12</item>
+        <item name="background_keyboard">@color/gray_800</item>
+        <item name="background_light">@color/gray_850</item>
+        <item name="background_page">@color/gray_1000</item>
+        <item name="background_suggestions">@color/gray_800</item>
+        <item name="field_background">@color/gray_850</item>
+        <item name="field_border">@color/white_alpha12</item>
+        <item name="field_error_background">@color/red_dark</item>
+        <item name="field_error_border">@color/red_light</item>
+        <item name="field_text_placeholder">@color/gray_500</item>
+        <item name="field_valid_border">@color/green</item>
+        <item name="header_alternate_background">@color/gray_800</item>
+        <item name="header_alternate_tab_active_indicator">@color/gray_100</item>
+        <item name="header_alternate_tab_active_text">@color/gray_100</item>
+        <item name="header_alternate_tab_inactive_text">@color/gray_500</item>
+        <item name="header_background">@color/gray_800</item>
+        <item name="header_background_before_blur">@color/gray_950</item>
+        <item name="header_background_before_blur_alternate">@color/gray_950</item>
+        <item name="header_search_field_background">@color/gray_700</item>
+        <item name="header_search_field_tint">@color/gray_300</item>
+        <item name="header_tab_active_background">@color/gray_600</item>
+        <item name="header_tab_active_indicator">@color/gray_100</item>
+        <item name="header_tab_active_text">@color/gray_100</item>
+        <item name="header_tab_inactive_text">@color/gray_500</item>
+        <item name="header_text">@color/gray_100</item>
+        <item name="header_text_alternate">@color/gray_100</item>
+        <item name="header_text_secondary">@color/white_alpha60</item>
+        <item name="header_tint">@color/gray_100</item>
+        <item name="header_tint_alternate">@color/gray_100</item>
+        <item name="header_tint_disabled">#66e1e3e6</item>
+        <item name="icon_alpha_placeholder">@color/gray_100</item>
+        <item name="icon_medium">@color/gray_400</item>
+        <item name="icon_medium_disabled">#66909499</item>
+        <item name="icon_name">@color/gray_300</item>
+        <item name="icon_outline_medium">@color/gray_300</item>
+        <item name="icon_outline_secondary">@color/gray_400</item>
+        <item name="icon_secondary">@color/gray_500</item>
+        <item name="icon_tertiary">@color/gray_700</item>
+        <item name="landing_background">@color/gray_900</item>
+        <item name="landing_field_background">@color/gray_850</item>
+        <item name="landing_field_border">@color/white_alpha12</item>
+        <item name="landing_field_placeholder">@color/gray_300</item>
+        <item name="landing_login_button_background">@color/gray_100</item>
+        <item name="landing_login_button_background_disabled">#66e1e3e6</item>
+        <item name="landing_login_button_foreground">@color/gray_900</item>
+        <item name="landing_login_button_foreground_disabled">#6619191a</item>
+        <item name="landing_primary_button_background">@color/gray_100</item>
+        <item name="landing_primary_button_background_disabled">#66e1e3e6</item>
+        <item name="landing_primary_button_foreground">@color/gray_900</item>
+        <item name="landing_primary_button_foreground_disabled">#6619191a</item>
+        <item name="landing_secondary_button_background">@color/white_alpha15</item>
+        <item name="landing_secondary_button_background_disabled">#0fffffff</item>
+        <item name="landing_secondary_button_foreground">@color/white</item>
+        <item name="landing_secondary_button_foreground_disabled">#66ffffff</item>
+        <item name="landing_snippet_border">@color/clear</item>
+        <item name="landing_tertiary_button_background">@color/clear</item>
+        <item name="landing_tertiary_button_background_disabled">#00000000</item>
+        <item name="landing_tertiary_button_foreground">@color/gray_500</item>
+        <item name="landing_tertiary_button_foreground_disabled">#6676787a</item>
+        <item name="landing_text_primary">@color/gray_100</item>
+        <item name="landing_text_secondary">@color/gray_500</item>
+        <item name="landing_text_title">@color/white</item>
+        <item name="separator_alpha">@color/white_alpha15</item>
+        <item name="tabbar_active_icon">@color/white</item>
+        <item name="tabbar_background">@color/gray_800</item>
+        <item name="tabbar_inactive_icon">@color/gray_500</item>
+        <item name="text_link">@color/sky_300</item>
+        <item name="text_link_hightlighted_background">@color/sky_300</item>
+        <item name="text_muted">@color/gray_200</item>
+        <item name="text_name">@color/gray_100</item>
+        <item name="text_placeholder">@color/gray_300</item>
+        <item name="text_primary">@color/gray_100</item>
+        <item name="text_secondary">@color/gray_500</item>
+        <item name="text_subhead">@color/gray_400</item>
+        <item name="text_tertiary">@color/gray_600</item>
+        <item name="android:statusBarColor" tools:targetApi="m">@color/gray_850</item>
+        <item name="android:textColorSecondary">@color/gray_100</item>
+
     </style>
 
     <style name="Widget.PrayerTimes.FABlikeButton" parent="@style/Widget.MaterialComponents.Button">

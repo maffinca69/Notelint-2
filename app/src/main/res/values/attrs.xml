@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="accent" format="color" />
+
+    <attr name="background_content" format="color" />
+    <attr name="background_highlighted" format="color" />
+    <attr name="background_keyboard" format="color" />
+    <attr name="background_light" format="color" />
+    <attr name="background_page" format="color" />
+    <attr name="background_suggestions" format="color" />
+
+    <attr name="headerLayout" format="reference" />
+    <attr name="header_alternate_background" format="color" />
+    <attr name="header_alternate_tab_active_indicator" format="color" />
+    <attr name="header_alternate_tab_active_text" format="color" />
+    <attr name="header_alternate_tab_inactive_text" format="color" />
+    <attr name="header_background" format="color" />
+    <attr name="header_background_before_blur" format="color" />
+    <attr name="header_background_before_blur_alternate" format="color" />
+    <attr name="header_search_field_background" format="color" />
+    <attr name="header_search_field_tint" format="color" />
+    <attr name="header_tab_active_background" format="color" />
+    <attr name="header_tab_active_indicator" format="color" />
+    <attr name="header_tab_active_text" format="color" />
+    <attr name="header_tab_inactive_text" format="color" />
+    <attr name="header_text" format="color" />
+    <attr name="header_text_alternate" format="color" />
+    <attr name="header_text_secondary" format="color" />
+    <attr name="header_tint" format="color" />
+    <attr name="header_tint_alternate" format="color" />
+    <attr name="header_tint_disabled" format="color" />
+
+    <attr name="landing_field_background" format="color" />
+    <attr name="landing_field_border" format="color" />
+    <attr name="landing_field_placeholder" format="color" />
+    <attr name="landing_login_button_background" format="color" />
+    <attr name="landing_login_button_background_disabled" format="color" />
+    <attr name="landing_login_button_foreground" format="color" />
+    <attr name="landing_login_button_foreground_disabled" format="color" />
+    <attr name="landing_primary_button_background" format="color" />
+    <attr name="landing_primary_button_background_disabled" format="color" />
+    <attr name="landing_primary_button_foreground" format="color" />
+    <attr name="landing_primary_button_foreground_disabled" format="color" />
+    <attr name="landing_secondary_button_background" format="color" />
+    <attr name="landing_secondary_button_background_disabled" format="color" />
+    <attr name="landing_secondary_button_foreground" format="color" />
+    <attr name="landing_secondary_button_foreground_disabled" format="color" />
+    <attr name="landing_snippet_border" format="color" />
+    <attr name="landing_tertiary_button_background" format="color" />
+    <attr name="landing_tertiary_button_background_disabled" format="color" />
+    <attr name="landing_tertiary_button_foreground" format="color" />
+    <attr name="landing_tertiary_button_foreground_disabled" format="color" />
+    <attr name="landing_text_primary" format="color" />
+    <attr name="landing_text_secondary" format="color" />
+    <attr name="landing_background" format="color" />
+    <attr name="landing_text_title" format="color" />
+
+    <attr name="text_color" format="reference|color" />
+    <attr name="text_link" format="reference|color" />
+    <attr name="text_link_hightlighted_background" format="reference|color" />
+    <attr name="text_muted" format="reference|color" />
+    <attr name="text_name" format="reference|color" />
+    <attr name="text_placeholder" format="reference|color" />
+    <attr name="text_primary" format="reference|color" />
+    <attr name="text_secondary" format="reference|color" />
+    <attr name="text_subhead" format="reference|color" />
+    <attr name="text_tertiary" format="reference|color" />
+
+    <attr name="separator_alpha" format="reference|color" />
+
+    <attr name="field_background" format="reference|color" />
+    <attr name="field_border" format="reference|color" />
+    <attr name="field_error_background" format="reference|color" />
+    <attr name="field_error_border" format="reference|color" />
+    <attr name="field_valid_border" format="reference|color" />
+    <attr name="field_text_placeholder" format="reference|color" />
+
+    <attr name="icon_alpha_placeholder" format="reference|color" />
+    <attr name="icon_medium" format="reference|color" />
+    <attr name="icon_medium_disabled" format="reference|color" />
+    <attr name="icon_name" format="reference|color" />
+    <attr name="icon_outline_medium" format="reference|color" />
+    <attr name="icon_outline_secondary" format="reference|color" />
+    <attr name="icon_secondary" format="reference|color" />
+    <attr name="icon_size" format="reference" />
+    <attr name="icon_tertiary" format="reference|color" />
+
+    <attr name="tabbar_active_icon" format="reference|color" />
+    <attr name="tabbar_background" format="reference|color" />
+    <attr name="tabbar_inactive_icon" format="reference|color" />
+</resources>

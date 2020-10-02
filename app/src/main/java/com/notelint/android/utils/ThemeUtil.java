@@ -28,7 +28,7 @@ public class ThemeUtil {
     }
 
     public static int getCurrentTheme() {
-        return mPrefs.getInt("current_theme", R.style.AppTheme_Dark);
+        return mPrefs.getInt("current_theme", R.style.AppTheme_Light);
     }
 
     public static void setCurrentTheme(int themeId) {

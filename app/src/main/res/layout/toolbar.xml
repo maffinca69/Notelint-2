@@ -7,10 +7,9 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/header_background">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -18,27 +17,34 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/app_name"
+            android:singleLine="true"
             android:textColor="?attr/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        <EditText
+            android:visibility="gone"
+            android:layout_toStartOf="@+id/search_btn"
+            android:id="@+id/search"
+            android:background="@null"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textColor="?attr/text_primary"
+            android:textColorHint="?attr/text_muted"
+            android:hint="Текст для поиска..."
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <ImageView
-            android:id="@+id/save_btn"
+            android:id="@+id/search_btn"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:foreground="?selectableItemBackgroundBorderless"
-            android:padding="18dp"
+            android:layout_alignParentEnd="true"
             android:backgroundTint="?attr/text_primary"
-            android:src="@drawable/ic_save_black_24dp"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:padding="14dp"
+            android:src="@drawable/ic_search_24px" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.appcompat.widget.Toolbar>

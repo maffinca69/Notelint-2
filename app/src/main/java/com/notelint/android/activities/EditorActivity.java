@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.notelint.android.MainActivity;
 import com.notelint.android.R;
 import com.notelint.android.database.models.Note;
 import com.notelint.android.helpers.MenuHelper;
+import com.notelint.android.helpers.search.SearchTextHelper;
 import com.notelint.android.receivers.Alarm;
 import com.notelint.android.utils.PrefUtil;
 import com.notelint.android.utils.ThemeUtil;
@@ -40,12 +42,14 @@ public class EditorActivity extends AppCompatActivity {
 
     private boolean isSaved = false;
     private boolean hasBeenCreated = false;
+    private boolean isSearch = false;
     private Note note;
 
     private String updatedTitle = "";
     private String updatedText = "";
 
     Calendar dateAndTime = Calendar.getInstance();
+    private SearchTextHelper searchTextHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +65,8 @@ public class EditorActivity extends AppCompatActivity {
         this.inputTitle.addTextChangedListener(editorTextFieldWatcher);
 
         this.prepareToolbar();
+
+        searchTextHelper = new SearchTextHelper(this, this.inputText);
     }
 
     @Override
@@ -85,6 +91,11 @@ public class EditorActivity extends AppCompatActivity {
                         dateAndTime.get(Calendar.MONTH),
                         dateAndTime.get(Calendar.DAY_OF_MONTH))
                         .show();
+                break;
+            }
+            case R.id.search_menu_btn: {
+                isSearch = true;
+                searchTextHelper.prepareSearch();
                 break;
             }
         }
@@ -146,6 +157,11 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (isSearch) {
+            isSearch = false;
+            searchTextHelper.cancelSearch();
+            return;
+        }
         exit();
     }
 
@@ -175,6 +191,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private void prepareToolbar() {
         ((TextView) this.findViewById(R.id.toolbar_title)).setText(this.id == 0 ? "Новая заметка" : "Редактирование заметки");
+        this.findViewById(R.id.search_btn).setVisibility(View.GONE);
         setSupportActionBar(this.findViewById(R.id.toolbar));
     }
 

@@ -10,6 +10,9 @@ public class MenuHelper {
     public static void setColorIcons(Menu menu) {
         int size = menu.size();
         for (int i = 0; i < size; i++) {
+            if (menu.getItem(i).getIcon() == null) {
+                return;
+            }
             menu.getItem(i).getIcon().mutate().setColorFilter(ThemeUtil.getCurrentColor(R.attr.text_primary), PorterDuff.Mode.SRC_IN);
         }
     }

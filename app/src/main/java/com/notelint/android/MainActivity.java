@@ -20,6 +20,7 @@ import com.notelint.android.callbacks.ItemTouchHelperCallback;
 import com.notelint.android.database.models.Alarm;
 import com.notelint.android.database.models.Note;
 import com.notelint.android.helpers.MenuHelper;
+import com.notelint.android.helpers.search.SearchListHelper;
 import com.notelint.android.utils.PrefUtil;
 import com.notelint.android.utils.ThemeUtil;
 
@@ -39,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private List<Note> notes = new ArrayList<>();
+    private SearchListHelper searchListHelper;
     private boolean isArchive = false;
+    private boolean isSearch = false;
 
     public static MainActivity getInstance() {
         return instance != null ? instance : new MainActivity();
@@ -51,15 +54,29 @@ public class MainActivity extends AppCompatActivity {
         ThemeUtil.apply(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+        initViews();
+    }
+
+    private void init() {
         realm = Realm.getDefaultInstance();
         this.fillData(builder().equalTo("deletedAt", 0));
-        this.recyclerView = findViewById(R.id.recycler);
-        this.setAdapter();
-
-        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivityForResult(new Intent(this, EditorActivity.class), STATUS_CREATED));
-        setSupportActionBar(findViewById(R.id.bottom_app_bar));
         this.getDataFromIntent();
         Alarm.reInitAllAlarms();
+    }
+
+    private void initViews() {
+        this.recyclerView = findViewById(R.id.recycler);
+        this.setAdapter();
+        findViewById(R.id.new_note_btn).setOnClickListener(v -> startActivityForResult(new Intent(this, EditorActivity.class), STATUS_CREATED));
+        findViewById(R.id.search_btn).setOnClickListener(v -> prepareSearch());
+        setSupportActionBar(findViewById(R.id.bottom_app_bar));
+        searchListHelper = new SearchListHelper(this, recyclerView, this.notes);
+    }
+
+    private void prepareSearch() {
+        isSearch = true;
+        searchListHelper.prepareSearch();
     }
 
     @Override
@@ -143,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (isSearch) {
+            isSearch = false;
+            searchListHelper.cancelSearch();
+            return;
+        }
         if (isArchive && PrefUtil.isExitArchiveBackPressed()) {
             setArchive();
             return;

@@ -7,30 +7,46 @@
 
     <include layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/input_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_margin="8dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/enter_title"
-        android:textColor="?attr/text_primary"
-        android:background="@null"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/input_text"
+    <ScrollView
+        android:id="@+id/edit_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="8dp"
-        android:gravity="top"
-        android:hint="@string/enter_text"
-        android:background="@null"
-        android:textSize="16sp"
-        android:inputType="text|textMultiLine"
-        android:textColor="?attr/text_muted" />
+        android:fillViewport="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:inputType="textCapSentences|textAutoComplete"
+                android:hint="@string/enter_title"
+                android:textColor="?attr/text_primary"
+                android:background="@null"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/input_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="top"
+                android:inputType="textCapSentences|textMultiLine|textAutoComplete"
+                android:hint="@string/enter_text"
+                android:background="@null"
+                android:textSize="16sp"
+                android:textColor="?attr/text_muted" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

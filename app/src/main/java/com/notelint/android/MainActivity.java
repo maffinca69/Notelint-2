@@ -2,6 +2,8 @@ package com.notelint.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -117,13 +119,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STATUS_CREATED) {
+            if (data == null || data.getExtras() == null) {
+                return;
+            }
+
             long id = data.getExtras().getLong("id");
             boolean hasBeenCreated = data.getExtras().getBoolean("hasBeenCreated");
             if (hasBeenCreated) {
                 Note note = realm.where(Note.class).equalTo("id", id).findFirstAsync();
-                this.notes.add(0, note);
-                recyclerView.getAdapter().notifyItemInserted(0);
-                recyclerView.smoothScrollToPosition(0);
+                note.addChangeListener(realmModel -> new Handler(Looper.getMainLooper()).post(() -> {
+                    final int insertPosition = 0;
+                    this.notes.add(insertPosition, note);
+                    recyclerView.getAdapter().notifyItemInserted(insertPosition);
+                    recyclerView.smoothScrollToPosition(insertPosition);
+                    note.removeAllChangeListeners();
+                }));
             }
         }
     }

@@ -88,7 +88,7 @@ public class SearchListHelper {
     private void searchItems(List<Note> filtered, String search) {
         for (Note note : list) {
             boolean findTitle = note.getTitle().toLowerCase().contains(search.toLowerCase());
-            boolean findText = note.getTitle().toLowerCase().contains(search.toLowerCase());
+            boolean findText = note.getText().toLowerCase().contains(search.toLowerCase());
             if (findText || findTitle) {
                 filtered.add(0, note);
             }

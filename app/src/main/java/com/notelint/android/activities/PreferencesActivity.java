@@ -53,7 +53,6 @@ public class PreferencesActivity extends PreferenceActivity {
                     .setMessage("Вы действительно хотите удалить все заметки в архиве?\nЭто действие нельзя будет отменить")
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         Note.clearArchive();
-                        Toast.makeText(Application.getInstance(), "Архив очищен", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();
@@ -65,7 +64,6 @@ public class PreferencesActivity extends PreferenceActivity {
                     .setMessage("Вы действительно хотите удалить все заметки?\nЭто действие нельзя будет отменить")
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         Note.clearAll();
-                        Toast.makeText(Application.getInstance(), "Все заметки удалены", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();

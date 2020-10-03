@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.notelint.android.MainActivity;
 import com.notelint.android.R;
 import com.notelint.android.activities.EditorActivity;
 import com.notelint.android.database.models.Note;

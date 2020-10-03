@@ -1,5 +1,7 @@
 package com.notelint.android.database.models;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Toast;
@@ -8,6 +10,7 @@ import com.notelint.android.Application;
 import com.notelint.android.utils.PrefUtil;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -47,6 +50,10 @@ public class Note extends RealmObject implements Parcelable {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     private String title;
@@ -181,8 +188,8 @@ public class Note extends RealmObject implements Parcelable {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
-        Note lastNote = realm.where(Note.class).sort("id", Sort.DESCENDING).findFirstAsync();
-        int lastPosition = lastNote != null ? lastNote.getPosition() + 1 : 1;
+        Number currentPosition = realm.where(Note.class).max("position");
+        int nextPosition = currentPosition == null ? 1 : currentPosition.intValue() + 1;
 
         long id = System.currentTimeMillis();
         Note note = realm.createObject(Note.class, id);
@@ -191,7 +198,7 @@ public class Note extends RealmObject implements Parcelable {
         note.setCreatedAt(System.currentTimeMillis());
         note.setUpdatedAt(System.currentTimeMillis());
         note.setVisible(visible);
-        note.setPosition(lastPosition);
+        note.setPosition(nextPosition);
 
         realm.commitTransaction();
         realm.close();
@@ -201,14 +208,15 @@ public class Note extends RealmObject implements Parcelable {
 
     public static void update(long id, String title, String text, boolean visible) {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
 
         Note note = realm.where(Note.class).equalTo("id", id).findFirstAsync();
         if (note == null) {
             Toast.makeText(Application.getInstance(), "Not found", Toast.LENGTH_SHORT).show();
+            realm.close();
             return;
         }
 
+        realm.beginTransaction();
         note.setTitle(title);
         note.setText(text);
         note.setUpdatedAt(System.currentTimeMillis());
@@ -223,20 +231,26 @@ public class Note extends RealmObject implements Parcelable {
 
     public static final void clearArchive() {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        RealmResults results = realm.where(Note.class).notEqualTo("deletedAt", 0).findAllAsync();
-        results.deleteAllFromRealm();
-        realm.commitTransaction();
-        realm.close();
+        RealmResults<Note> results = realm.where(Note.class).notEqualTo("deletedAt", 0).findAllAsync();
+        results.addChangeListener(realmResults -> {
+            realm.beginTransaction();
+            results.deleteAllFromRealm();
+            realm.commitTransaction();
+            realm.close();
+            Toast.makeText(Application.getInstance(), "Архив очищен", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public static final void clearAll() {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        RealmResults results = realm.where(Note.class).findAllAsync();
-        results.deleteAllFromRealm();
-        realm.commitTransaction();
-        realm.close();
+        RealmResults<Note> results = realm.where(Note.class).findAllAsync();
+        results.addChangeListener(realmResult -> {
+            realm.beginTransaction();
+            results.deleteAllFromRealm();
+            realm.commitTransaction();
+            realm.close();
+            Toast.makeText(Application.getInstance(), "Все заметки удалены", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public static Note getLastNote() {

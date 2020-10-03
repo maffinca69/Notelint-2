@@ -40,7 +40,6 @@ public class EditorActivity extends AppCompatActivity {
     private EditText inputText;
     private long id = 0;
 
-    private boolean isSaved = false;
     private boolean hasBeenCreated = false;
     private boolean isSearch = false;
     private Note note;
@@ -61,9 +60,6 @@ public class EditorActivity extends AppCompatActivity {
 
         this.getDataFromIntent();
 
-        this.inputText.addTextChangedListener(editorTextFieldWatcher);
-        this.inputTitle.addTextChangedListener(editorTextFieldWatcher);
-
         this.prepareToolbar();
 
         searchTextHelper = new SearchTextHelper(this, this.inputText);
@@ -81,7 +77,6 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save: {
                 this.createOrUpdate(true);
-                this.isSaved = true;
                 Toast.makeText(Application.getInstance(), "Заметка сохранена", Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -172,22 +167,6 @@ public class EditorActivity extends AppCompatActivity {
         setResult(MainActivity.STATUS_CREATED, data);
         finish();
     }
-
-    protected TextWatcher editorTextFieldWatcher = new TextWatcher() {
-
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            isSaved = false;
-        }
-    };
 
     private void prepareToolbar() {
         ((TextView) this.findViewById(R.id.toolbar_title)).setText(this.id == 0 ? "Новая заметка" : "Редактирование заметки");

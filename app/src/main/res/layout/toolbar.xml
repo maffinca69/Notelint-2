@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
@@ -43,7 +44,8 @@
             android:backgroundTint="?attr/text_primary"
             android:foreground="?selectableItemBackgroundBorderless"
             android:padding="14dp"
-            android:src="@drawable/ic_search_24px" />
+            android:src="@drawable/ic_search_24px"
+            app:tint="?attr/text_primary" />
 
     </RelativeLayout>
 

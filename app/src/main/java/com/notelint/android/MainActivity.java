@@ -1,24 +1,13 @@
 package com.notelint.android;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.notelint.android.activities.EditorActivity;
 import com.notelint.android.activities.PreferencesActivity;
 import com.notelint.android.adapters.MainAdapter;
+import com.notelint.android.callbacks.ItemTouchHelperCallback;
 import com.notelint.android.database.models.Alarm;
 import com.notelint.android.database.models.Note;
-import com.notelint.android.callbacks.ItemTouchHelperCallback;
 import com.notelint.android.helpers.MenuHelper;
 import com.notelint.android.utils.PrefUtil;
 import com.notelint.android.utils.ThemeUtil;
@@ -38,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -96,11 +84,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setArchive() {
         isArchive = !isArchive;
+
         this.notes.clear();
         recyclerView.getAdapter().notifyDataSetChanged();
+
         RealmQuery<Note> builder = builder();
         if (isArchive) builder.notEqualTo("deletedAt", 0);
-        if (!isArchive) builder.equalTo("deletedAt", 0);
+        else builder.equalTo("deletedAt", 0);
+
         fillData(builder);
         ((TextView) findViewById(R.id.toolbar_title)).setText(isArchive ? getString(R.string.archive) : getString(R.string.app_name));
     }

@@ -2,6 +2,7 @@ package com.notelint.android.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -54,10 +55,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
             note.addChangeListener((realmModel, changeSet) -> notifyItemChanged(position));
 
             Intent intent = new Intent(this.context, EditorActivity.class);
-            intent.putExtra("id", note.getId());
-            intent.putExtra("title", note.getTitle());
-            intent.putExtra("text", note.getText());
-
+            intent.putExtra("note", note);
             this.context.startActivity(intent);
         });
         return viewHolder;

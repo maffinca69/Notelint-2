@@ -1,21 +1,49 @@
 package com.notelint.android.database.models;
 
-import android.util.Log;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import com.notelint.android.Application;
-
-import java.io.Serializable;
+import com.notelint.android.utils.PrefUtil;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
-public class Note extends RealmObject implements Serializable {
+public class Note extends RealmObject implements Parcelable {
     @PrimaryKey
     private long id;
+
+    public Note() {
+
+    }
+
+    public Note(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        text = in.readString();
+        visible = in.readByte() != 0;
+        position = in.readInt();
+        createdAt = in.readLong();
+        updatedAt = in.readLong();
+        deletedAt = in.readLong();
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -91,6 +119,10 @@ public class Note extends RealmObject implements Serializable {
         this.position = position;
     }
 
+    public boolean isDeleted() {
+        return this.getDeletedAt() > 0;
+    }
+
     // todo доделать. Научиться правильно считать позицию
     public void updatePosition(int position) {
         Realm realm = Realm.getDefaultInstance();
@@ -139,8 +171,9 @@ public class Note extends RealmObject implements Serializable {
 
     /**
      * Return id crated note
-     * @param title - title
-     * @param text - text note
+     *
+     * @param title   - title
+     * @param text    - text note
      * @param visible - visible
      * @return long
      */
@@ -148,7 +181,7 @@ public class Note extends RealmObject implements Serializable {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
-        Note lastNote = realm.where(Note.class).sort("id", Sort.DESCENDING).findFirst();
+        Note lastNote = realm.where(Note.class).sort("id", Sort.DESCENDING).findFirstAsync();
         int lastPosition = lastNote != null ? lastNote.getPosition() + 1 : 1;
 
         long id = System.currentTimeMillis();
@@ -180,6 +213,9 @@ public class Note extends RealmObject implements Serializable {
         note.setText(text);
         note.setUpdatedAt(System.currentTimeMillis());
         note.setVisible(visible);
+        if (note.getDeletedAt() > 0 && PrefUtil.isReturnFromArchive()) {
+            note.setDeletedAt(0);
+        }
 
         realm.commitTransaction();
         realm.close();
@@ -188,7 +224,8 @@ public class Note extends RealmObject implements Serializable {
     public static final void clearArchive() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(Note.class).notEqualTo("deletedAt", 0).findAll().deleteAllFromRealm();
+        RealmResults results = realm.where(Note.class).notEqualTo("deletedAt", 0).findAllAsync();
+        results.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }
@@ -196,7 +233,8 @@ public class Note extends RealmObject implements Serializable {
     public static final void clearAll() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(Note.class).findAll().deleteAllFromRealm();
+        RealmResults results = realm.where(Note.class).findAllAsync();
+        results.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }
@@ -206,5 +244,20 @@ public class Note extends RealmObject implements Serializable {
         Note lastNote = realm.where(Note.class).sort("id", Sort.DESCENDING).findFirst();
         realm.close();
         return lastNote;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.getId());
+        dest.writeString(this.getTitle());
+        dest.writeString(this.getText());
+        dest.writeLong(this.getDeletedAt());
+        dest.writeLong(this.getCreatedAt());
+        dest.writeLong(this.getUpdatedAt());
     }
 }

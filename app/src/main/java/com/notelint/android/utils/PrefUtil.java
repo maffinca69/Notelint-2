@@ -22,4 +22,8 @@ public class PrefUtil {
     public static final boolean isExitArchiveBackPressed() {
         return mPrefs.getBoolean("exitArchiveBackPressed", false);
     }
+
+    public static final boolean isReturnFromArchive() {
+        return mPrefs.getBoolean("returnFromArchive", false);
+    }
 }

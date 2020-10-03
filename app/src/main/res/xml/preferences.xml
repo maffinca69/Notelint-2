@@ -23,6 +23,10 @@
         android:key="exitArchiveBackPressed"
         android:title="Выход из архива кнопкой назад"
         android:summary="Выходить из архива кнопкой назад. Если не включено - выход из приложения" />
+    <SwitchPreference
+        android:key="returnFromArchive"
+        android:title="Возвращать из архива"
+        android:summary="Возвращать заметку из архива после редактирования" />
     <Preference
         android:key="clearArchive"
         android:title="Очистить архив" />

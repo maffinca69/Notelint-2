@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private boolean isSaved = false;
     private boolean hasBeenCreated = false;
+    private Note note;
 
     private String updatedTitle = "";
     private String updatedText = "";
@@ -130,17 +132,16 @@ public class EditorActivity extends AppCompatActivity {
             return;
         }
 
-        long id = intent.getLong("id");
-        String title = intent.getString("title");
-        String text = intent.getString("text");
+        this.note = (Note) getIntent().getParcelableExtra("note");
 
-        this.inputText.setText(text);
-        this.inputTitle.setText(title);
+        assert this.note != null;
+        this.inputText.setText(this.note.getText());
+        this.inputTitle.setText(this.note.getTitle());
 
-        this.updatedTitle = title;
-        this.updatedText = text;
+        this.updatedTitle = this.note.getTitle();
+        this.updatedText = this.note.getText();
 
-        this.id = id;
+        this.id = this.note.getId();
     }
 
     @Override
